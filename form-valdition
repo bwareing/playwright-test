@@ -1,0 +1,76 @@
+// @ts-check
+import { test, expect } from '@playwright/test';
+import { assert } from 'console';
+
+let successMsg;
+
+async function fill_out_form(form) {
+    await form.getByLabel('Full Name').fill('Iron man');
+    await form.getByLabel('Email Address *').fill('Tonystark@gmail.com');
+    await form.getByLabel('Password *').fill('Ironmanbestavanger');
+    await form.getByLabel('Phone Number').fill('212-970-4133');
+    await form.getByLabel('Date of Birth').fill('1970-05-29');
+    await form.getByLabel('Country').selectOption({ label: 'United States' });
+    await form.getByTestId('radio-male').check();
+    await form.getByTestId('check-java').check();
+    await form.getByLabel('Bio').fill('I am ironman');
+    await form.getByTestId('check-terms').check();
+   
+}
+
+async function submit_imcomplete(form, successMsg) {
+    await form.getByTestId('btn-register').click();
+    await expect(successMsg).toBeHidden();
+}
+
+test.beforeEach(async ({ page }) => {
+    await page.goto('https://playwrightlab.github.io/', {
+        timeout: 60000,
+        waitUntil: 'domcontentloaded'
+    });
+    successMsg = page.getByText('Registration successful! Welcome aboard.');
+    
+});
+
+test('can not submit blank form ', async ({ page }) =>{
+    const form = page.locator('section#forms form');
+    await submit_imcomplete(form, successMsg);
+});
+
+
+test ('Validate form when filled out', async ({ page }) => {
+    const form = page.locator('section#forms form');
+    await fill_out_form(form);
+    await form.getByTestId('btn-register').click();
+    await expect(successMsg).toBeVisible();
+
+});
+
+test ('name blank', async ({ page }) => {
+    const form = page.locator('section#forms form');
+    await fill_out_form(form);
+    await form.getByLabel('Full Name').fill('');
+    await submit_imcomplete(form, successMsg);
+});
+
+test ('email blank', async ({ page }) => {
+    const form = page.locator('section#forms form');
+    await fill_out_form(form);
+    await form.getByLabel('Email Address *').fill('');
+    await submit_imcomplete(form, successMsg);
+});
+
+test ('Password blank', async ({ page }) => {
+    const form = page.locator('section#forms form');
+    await fill_out_form(form);
+    await form.getByLabel('Password *').fill('');
+    await submit_imcomplete(form, successMsg);
+});
+
+
+test ('terms blank', async ({ page }) => {
+    const form = page.locator('section#forms form');
+    await fill_out_form(form);
+    await form.getByTestId('check-terms').uncheck();
+    await submit_imcomplete(form, successMsg);
+});
