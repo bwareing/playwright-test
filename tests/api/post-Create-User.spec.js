@@ -1,9 +1,7 @@
 import {test, expect, request} from '@playwright/test';
+import { test_tool as Api_request } from './fixtures/api-fixture';
 
-test("create user", async ({}) =>{
-   const api = await request.newContext({
-    baseURL : 'https://reqres.in/'
-   });
+Api_request("create user", async ({api}) =>{
    
 const response = await api.post('/api/users', {
     data: {
@@ -17,4 +15,6 @@ const response = await api.post('/api/users', {
   expect(response.status()).toBe(201);
   expect(body.id).toBeTruthy();
   expect(body.createdAt).toBeTruthy();
+  expect(body.job).toBe("QA engineer");
+  expect(body.name).toBe("Brandon")
 });
