@@ -1,11 +1,9 @@
 import {test, expect, request} from '@playwright/test';
+import { test_tool as Api_request } from './fixtures/api-fixture';
+import { getTestContext } from 'node:test';
 
-test('get more then 1 resource', async ({}) => {
+Api_request('get more then 1 resource', async ({api}) => {
  
-    const api = await request.newContext({
-        baseURL : 'https://reqres.in/'
-    })
-
     const response = await api.get('/api/unknown/');
 
     const body = await response.json();
@@ -32,11 +30,8 @@ test('get more then 1 resource', async ({}) => {
 api.dispose();
 })
 
-test('get page 2 of resources', async ({}) => {
-     const api = await request.newContext({
-        baseURL : 'https://reqres.in/'
-    })
-
+Api_request('get page 2 of resources', async ({api}) => {
+   
     const response = await api.get('/api/unknown/?page=2');
 
     const body = await response.json();
