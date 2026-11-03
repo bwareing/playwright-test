@@ -1,10 +1,7 @@
 import {test, expect, request} from '@playwright/test';
+import { test_tool  as Api_request} from './fixtures/api-fixture';
 
-test('login vaild', async ({}) => {
-
-    const api = await request.newContext({
-        baseURL : 'https://reqres.in/'
-    });
+Api_request('login vaild', async ({api}) => {
 
     const response = await api.post('api/login',{
         data:
@@ -24,11 +21,7 @@ test('login vaild', async ({}) => {
 
 })
 
-test('login invaild', async ({}) => {
-
-    const api = await request.newContext({
-        baseURL : 'https://reqres.in/'
-    });
+Api_request('login invaild', async ({api}) => {
 
     const response = await api.post('api/login',{
         data:
