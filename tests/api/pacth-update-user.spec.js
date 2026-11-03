@@ -1,12 +1,9 @@
 import { test, expect, request } from '@playwright/test';
 import { assert } from 'node:console';
+import { test_tool as Api_request } from './fixtures/api-fixture';
 
-test('Do pacth update', async ({}) => {
+Api_request('Do pacth update', async ({api}) => {
     
-    const api = await request.newContext({
-        baseURL: 'https://reqres.in/' 
-    });
-
     const response = await api.patch('api/users/2', {
          data:{
             job: 'be a kid'
