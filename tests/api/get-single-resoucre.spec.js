@@ -1,10 +1,7 @@
 import {test, expect, request} from '@playwright/test';
+import { test_tool as Api_request } from './fixtures/api-fixture';
 
-test('get single resource', async ({}) => {
-
-   const api = await request.newContext({
-     baseURL: 'https://reqres.in/'
-   });
+Api_request('get single resource', async ({api}) => {
 
    const response = await api.get('/api/unknown/2');
 
@@ -26,5 +23,4 @@ test('get single resource', async ({}) => {
 
    await api.dispose()
    
-
 })
