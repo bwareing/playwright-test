@@ -1,10 +1,8 @@
-// @ts-
 import {test, expect, request} from '@playwright/test';
+import { test_tool as Api_request } from './fixtures/api-fixture';
 
-test('Get single user', async({}) => {
-const api = await request.newContext({
-   baseURL: 'https://reqres.in/'
-});
+Api_request('Get single user', async({api}) => {
+
 const starttime = Date.now();
 const response = await api.get('/api/users/2');
 const bad_response = await api.get('/api/users/25');
