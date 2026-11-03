@@ -1,11 +1,8 @@
 import { test, expect, request } from '@playwright/test';
+import { test_tool as Api_request} from './fixtures/api-fixture';
 
 
-test('Get all users', async ({}) =>{
-
-    const api = await request.newContext({
-       baseURL: 'https://reqres.in/'
-});
+Api_request('Get all users', async ({ api}) =>{
 
 const response = await api.get('/api/users');
 const body = await response.json();
