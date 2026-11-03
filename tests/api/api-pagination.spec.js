@@ -1,10 +1,8 @@
 import {test, expect, request} from '@playwright/test';
+import { test_tool as Api_request} from './fixtures/api-fixture';
 
-test ('test pagination', async ({}) => {
-    const api = await request.newContext({
-        baseURL : 'https://reqres.in/'
-    })
-
+Api_request('test pagination', async ({ api }) => {
+   
     const response = await api.get('/api/users?page=1');
 
     const body = await response.json();
@@ -17,11 +15,8 @@ test ('test pagination', async ({}) => {
 
 })
 
-test ('test pagination get page 2', async ({}) => {
-    const api = await request.newContext({
-        baseURL : 'https://reqres.in/'
-    })
-
+Api_request('test pagination get page 2', async ({ api}) => {
+   
     const response = await api.get('/api/users?page=2');
 
     const body = await response.json();
@@ -37,11 +32,8 @@ test ('test pagination get page 2', async ({}) => {
 
 })
 
-test('make sure pages are different', async ({}) =>{
-      const api = await request.newContext({
-        baseURL : 'https://reqres.in/'
-    })
-
+Api_request('make sure pages are different', async ({ api }) =>{
+    
     const response_1 = await api.get('/api/users?page=1');
     const response_2 = await api.get('/api/users?page=2');
 
