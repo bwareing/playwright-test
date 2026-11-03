@@ -1,5 +1,6 @@
 import { test, expect, request } from '@playwright/test';
 import Ajv from 'ajv';
+import { test_tool as Api_request } from './fixtures/api-fixture';
 
 const user_schema = {
     type: "object",
@@ -36,12 +37,9 @@ const user_schema = {
     }
 };
 
-test('test schema', async ({})=>{
-    const api = await request.newContext({
-        baseURL: 'https://reqres.in/'
-    })
-
-    const response = await api.get('/api/users/2');
+Api_request('test schema', async ({api})=>{
+   
+   const response = await api.get('/api/users/2');
 
     expect(response.status()).toBe(200);
 
@@ -63,4 +61,3 @@ test('test schema', async ({})=>{
 
     console.log(body);
 })
-
